@@ -330,6 +330,17 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Compare local and GitHub revisions",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const{spawnSync}=require('node:child_process');const cwd=process.cwd(),remote='https://github.com/jai-prakash-811/AI-College-Query-ChatBot.git';const local=spawnSync('git',['rev-parse','HEAD'],{cwd,encoding:'utf8'});const upstream=spawnSync('git',['ls-remote','--heads',remote,'main'],{cwd,encoding:'utf8'});if(local.status!==0||upstream.status!==0){console.error(local.stderr||upstream.stderr);process.exit(1)}const sha=local.stdout.trim(),remoteSha=upstream.stdout.trim().split(/\\s+/)[0];console.log('Local HEAD: '+sha);console.log('GitHub main: '+remoteSha);console.log('In sync: '+(sha===remoteSha));const files=spawnSync('git',['show','--format=','--name-only',remoteSha],{cwd,encoding:'utf8'});console.log('Files in latest GitHub commit:');console.log(files.stdout.trim())"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }
