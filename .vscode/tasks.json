@@ -270,6 +270,43 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Test distinct chatbot fallback answers",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test",
+				"--",
+				"tests/demoAnswer.test.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check chatbot route syntax",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"server/routes/chat.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run complete backend test suite",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

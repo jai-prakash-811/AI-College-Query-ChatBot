@@ -30,8 +30,33 @@ Do not claim that you checked a live website unless you actually did so.
 When college database records are provided, use them as the only source for Bhopal college facts, curriculum details, placement figures, and fees. Never infer, estimate, or invent missing information. If a verified fact is absent, say it is not available in the database and cite the official source links provided.
 `;
 
-function demoAnswer(question) {
+export function demoAnswer(question) {
   const q = question.toLowerCase();
+
+  if (
+    /compar|compare|difference/.test(q) &&
+    /\b(bca|mca)\b/.test(q)
+  ) {
+    return "For a BCA college, compare programming fundamentals, lab time, internships, and support for building projects. For an MCA college, focus more on advanced computing subjects, specialisations, research or industry projects, and placement roles. For both, compare accreditation, faculty, total costs, and independently verifiable placement data. Which city or colleges are you considering?";
+  }
+
+  if (
+    /after\s+(?:completing\s+)?bca|bca\s+(?:ke\s+)?baad|after\s+bachelor/.test(q)
+  ) {
+    return "After BCA, possible paths include:\n\n- MCA for advanced computer applications (check each university's eligibility and entrance requirements).\n- An MBA if you want to move toward business or management.\n- An MSc in computer science, IT, data science, or a related subject where eligible.\n- A job or internship, supported by focused skills and projects.\n- A relevant postgraduate diploma or certification.\n\nChoose based on your interests, eligibility, budget, and career goal; course names and admission rules vary by institution.";
+  }
+
+  if (/placement|placements|internship|internships|package|salary/.test(q)) {
+    return "To assess placements, ask each college for the latest course-specific placement report: batch size, number placed, median salary, role types, internship support, and how many employers recruited students. Separate verified figures from promotional highest-package claims, and check the report year before comparing.";
+  }
+
+  if (/accreditation|accredited|approval|approved|affiliation/.test(q)) {
+    return "Check the college's current affiliation and programme approval on the relevant university or regulator's official website. Also verify accreditation status, the institution or programme it covers, and its validity period—an approval for one course or campus does not automatically apply to every programme.";
+  }
+
+  if (/curriculum|syllabus|subjects|course content|what will i study/.test(q)) {
+    return "Compare the latest course syllabus semester by semester. Look for core subjects, electives, practical labs, current tools, project work, internship or industry exposure, and opportunities to update electives. Ask the department for the current curriculum rather than relying on an old brochure.";
+  }
 
   if (/fee|fees|cost|tuition/.test(q)) {
     return "College fees depend on the institution, course, academic year, category, and facilities. Check the latest official fee notice and confirm tuition, examination, hostel, transport, and other charges.";
@@ -51,6 +76,10 @@ function demoAnswer(question) {
 
   if (/rank|cutoff|counselling/.test(q)) {
     return "College options depend on your entrance exam, rank, category, domicile, course, and counselling round. Share these details to help build a shortlist. Verify closing ranks on the official counselling website.";
+  }
+
+  if (/compar|compare|shortlist|choose|choosing|select/.test(q)) {
+    return "Build a shortlist using the same checklist for every college: recognised affiliation, course syllabus, faculty and lab access, course-specific placement evidence, internships, full three-year or two-year cost, commute or hostel, and student support. Give each factor a score based on what matters to you, then verify key claims with official sources and current students.";
   }
 
   if (/college|bca|mca|course/.test(q)) {
