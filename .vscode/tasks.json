@@ -1,0 +1,205 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start chatbot backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"run",
+				"dev"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Install auth dependencies",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"install"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build chatbot frontend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"client",
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run chatbot backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"run",
+				"dev"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run chatbot frontend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"client",
+				"run",
+				"dev",
+				"--",
+				"--host",
+				"127.0.0.1"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Test chatbot backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Configure account JWT secret",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const fs=require('node:fs');const crypto=require('node:crypto');const p='server/.env';let s=fs.readFileSync(p,'utf8');const secret=crypto.randomBytes(48).toString('hex');const line='JWT_SECRET='+secret;if(/^[ \\t]*JWT_SECRET[ \\t]*=.*$/m.test(s)){s=s.replace(/^[ \\t]*JWT_SECRET[ \\t]*=.*$/m,line)}else{s+=(s.endsWith('\\n')?'':'\\n')+line+'\\n'}fs.writeFileSync(p,s);console.log('JWT secret configured with '+secret.length+' characters; value withheld.')"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check account configuration",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"fetch('http://127.0.0.1:5000/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:'{}'}).then(async r=>{const data=await r.json();console.log('Login endpoint HTTP '+r.status+': '+data.error)}).catch(e=>{console.error('Login endpoint check failed: '+e.message);process.exitCode=1})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Reload backend environment",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const fs=require('node:fs');const p='server/index.js';const now=new Date();fs.utimesSync(p,now,now);console.log('Requested backend watcher restart without changing source contents.')"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify account login configuration",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"fetch('http://127.0.0.1:5000/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:'{}'}).then(async r=>{const data=await r.json();console.log('Login endpoint HTTP '+r.status+': '+data.error)}).catch(e=>{console.error('Login endpoint check failed: '+e.message);process.exitCode=1})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check backend readiness",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"fetch('http://127.0.0.1:5000/api/health').then(async r=>{console.log('Health HTTP '+r.status+': '+JSON.stringify(await r.json()))}).catch(e=>{console.error(e.message);process.exitCode=1})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Wait for backend restart",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const wait=ms=>new Promise(r=>setTimeout(r,ms));for(let i=0;i<20;i++){try{const r=await fetch('http://127.0.0.1:5000/api/health');console.log('Health HTTP '+r.status+': '+JSON.stringify(await r.json()));process.exit(0)}catch{}await wait(500)}console.error('Backend did not become ready after 10 seconds.');process.exit(1)"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Confirm login is configured",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"fetch('http://127.0.0.1:5000/api/auth/login',{method:'POST',headers:{'content-type':'application/json'},body:'{}'}).then(async r=>{const data=await r.json();console.log('Login endpoint HTTP '+r.status+': '+data.error);if(r.status===503)process.exitCode=1}).catch(e=>{console.error('Login endpoint check failed: '+e.message);process.exitCode=1})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check GitHub repository access",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const {spawnSync}=require('node:child_process');const url='https://github.com/jai-prakash-811/College_Query_ChatBot.git';const r=spawnSync('git',['ls-remote',url,'HEAD'],{encoding:'utf8'});if(r.status===0){console.log(r.stdout.trim()||'Repository reachable; no HEAD ref found (likely empty repository).')}else{console.log('Repository access check failed.');console.log((r.stderr||'').trim());process.exitCode=r.status||1}"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Inspect GitHub branch heads",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const{spawnSync}=require('node:child_process');const r=spawnSync('git',['ls-remote','--heads','https://github.com/jai-prakash-811/College_Query_ChatBot.git'],{encoding:'utf8'});if(r.status!==0){console.error(r.stderr);process.exit(r.status||1)}console.log(r.stdout.trim()||'No remote branches.')"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check new repository remote",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const{spawnSync}=require('node:child_process');const u='https://github.com/jai-prakash-811/AI-College-Query-ChatBot.git';const r=spawnSync('git',['ls-remote','--heads',u],{encoding:'utf8'});if(r.status!==0){console.error((r.stderr||'Git remote access failed').trim());process.exit(r.status||1)}console.log(r.stdout.trim()||'No branches: repository appears empty.')"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Prepare secret-safe Git staging",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const{spawnSync}=require('node:child_process');const c=process.cwd(),run=(a)=>{const r=spawnSync('git',a,{cwd:c,encoding:'utf8'});if(r.status!==0){console.error((r.stderr||r.stdout||'Git command failed').trim());process.exit(r.status||1)}return r.stdout.trim()};run(['init','-b','main']);run(['remote','add','origin','https://github.com/jai-prakash-811/AI-College-Query-ChatBot.git']);run(['add','-A']);const files=run(['diff','--cached','--name-only']).split(/\\r?\\n/).filter(Boolean);const bad=files.filter(p=>/(^|\\/)\\.env(?:\\..*)?$/i.test(p)&&!/(^|\\/)\\.env\\.example$/i.test(p)||/(^|\\/)node_modules\\//i.test(p)||/(^|\\/)dist\\//i.test(p));console.log('Staged files: '+files.length);console.log('Ignored server/.env: '+(spawnSync('git',['check-ignore','-q','server/.env'],{cwd:c}).status===0?'yes':'NO'));console.log('Forbidden files staged: '+bad.length);console.log('Staged paths:');for(const p of files)console.log(p);if(bad.length||spawnSync('git',['check-ignore','-q','server/.env'],{cwd:c}).status!==0){console.error('Secret/dependency exclusion verification failed.');process.exit(1)}"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
