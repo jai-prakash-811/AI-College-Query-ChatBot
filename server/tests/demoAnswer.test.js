@@ -1,6 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { demoAnswer, shouldLookupCollegeData } from "../routes/chat.js";
+import {
+  demoAnswer,
+  isQuickGuideQuestion,
+  shouldLookupCollegeData
+} from "../routes/chat.js";
 
 test("gives different demo replies for BCA/MCA comparison and post-BCA study options", () => {
   const comparison = demoAnswer("Suggest ways to compare colleges for BCA and MCA.");
@@ -22,6 +26,40 @@ test("uses distinct focused replies for common college questions", () => {
   ];
 
   assert.equal(new Set(replies).size, replies.length);
+});
+
+test("answers each quick-question topic with a focused Hinglish reply", () => {
+  const replies = [
+    demoAnswer("Which colleges can I get with my rank?"),
+    demoAnswer("What is the fee structure of MCA?"),
+    demoAnswer("What is the admission process?"),
+    demoAnswer("Best colleges for BCA / MCA?"),
+    demoAnswer("How can I find scholarships?"),
+    demoAnswer("What hostel facilities should I check?")
+  ];
+
+  assert.equal(new Set(replies).size, replies.length);
+  assert.match(replies[0], /category|course/i);
+  assert.match(replies[1], /exact fees|exact/i);
+  assert.match(replies[2], /admission|eligibility/i);
+  assert.match(replies[3], /NIMCET|CUET-PG/i);
+  assert.match(replies[4], /Scholarship Portal/i);
+  assert.match(replies[5], /Mess|Hostel|hostel/i);
+});
+
+test("uses fixed guides for the requested FAQs while preserving rank and AI flows", () => {
+  for (const question of [
+    "What is the fee structure of MCA?",
+    "What is the admission process?",
+    "Best colleges for BCA / MCA?",
+    "How can I find scholarships?",
+    "What hostel facilities should I check?"
+  ]) {
+    assert.equal(isQuickGuideQuestion(question), true, question);
+  }
+
+  assert.equal(isQuickGuideQuestion("Which colleges can I get with my rank?"), false);
+  assert.equal(isQuickGuideQuestion("Tell me about computer science careers."), false);
 });
 
 test("only looks up college records for Bhopal, rank, and known college follow-ups", () => {

@@ -341,6 +341,52 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Validate chatbot response syntax",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"server/routes/chat.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Test question-specific chatbot answers",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify tailored FAQ and rank routing",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Validate chat handler syntax",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"server/routes/chat.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

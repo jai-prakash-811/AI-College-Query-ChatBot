@@ -30,6 +30,15 @@ Do not claim that you checked a live website unless you actually did so.
 When college database records are provided, use them as the only source for Bhopal college facts, curriculum details, placement figures, and fees. Never infer, estimate, or invent missing information. If a verified fact is absent, say it is not available in the database and cite the official source links provided.
 `;
 
+export function isQuickGuideQuestion(question) {
+  const q = question.toLowerCase();
+  return /\bMCA\b/i.test(question) && /fee|fees|cost|tuition/.test(q) ||
+    /admission|apply|eligib/.test(q) ||
+    /scholarship/.test(q) ||
+    /hostel/.test(q) ||
+    /best|top|good|recommend|suggest/.test(q) && /\b(bca|mca)\b/.test(q);
+}
+
 export function demoAnswer(question) {
   const q = question.toLowerCase();
 
@@ -46,6 +55,13 @@ export function demoAnswer(question) {
     return "After BCA, possible paths include:\n\n- MCA for advanced computer applications (check each university's eligibility and entrance requirements).\n- An MBA if you want to move toward business or management.\n- An MSc in computer science, IT, data science, or a related subject where eligible.\n- A job or internship, supported by focused skills and projects.\n- A relevant postgraduate diploma or certification.\n\nChoose based on your interests, eligibility, budget, and career goal; course names and admission rules vary by institution.";
   }
 
+  if (
+    /best|top|good|recommend|suggest/.test(q) &&
+    /\b(bca|mca)\b/.test(q)
+  ) {
+    return "BCA/MCA ke liye ek hi college sabke liye “best” nahi hota. Shortlist banate waqt:\n\n- MCA: current NIMCET participating-institute list, CUET-PG participating universities, aur state counselling ke options dekhein.\n- BCA: universities aur colleges ke current CUET-UG, merit, ya college-specific admission routes check karein.\n- Dono courses: affiliation/approval, latest syllabus, faculty, labs, course-wise placement report, total fees, aur hostel/location compare karein.\n\nCourse availability aur eligibility har saal badal sakti hai. Aap apna preferred city/state aur budget batayein, main shortlist ke factors narrow kar dunga.";
+  }
+
   if (/placement|placements|internship|internships|package|salary/.test(q)) {
     return "To assess placements, ask each college for the latest course-specific placement report: batch size, number placed, median salary, role types, internship support, and how many employers recruited students. Separate verified figures from promotional highest-package claims, and check the report year before comparing.";
   }
@@ -59,23 +75,26 @@ export function demoAnswer(question) {
   }
 
   if (/fee|fees|cost|tuition/.test(q)) {
-    return "College fees depend on the institution, course, academic year, category, and facilities. Check the latest official fee notice and confirm tuition, examination, hostel, transport, and other charges.";
+    if (/\bMCA\b/.test(q)) {
+      return "MCA ki exact fees college, academic year, aur student category ke hisaab se alag hoti hain, isliye verified fee notice ke bina amount ka andaza dena theek nahi hoga. Official website par latest fee structure dekhein aur 2 saal ka total jodte waqt tuition, exam/registration, lab, hostel, mess, transport, aur refundable deposit alag-alag confirm karein. College ka naam ya city batayein to comparison ke liye kya check karna hai, main bata sakta hoon.";
+    }
+    return "Fees course, college, academic year, aur category ke hisaab se badalti hain. Exact amount ke liye latest official fee notice check karein. Total cost mein tuition ke saath exam/registration, lab, hostel, mess, transport, aur refundable deposit bhi jodein.";
   }
 
   if (/admission|apply|eligib/.test(q)) {
-    return "Admission checklist:\n\n1. Check course eligibility and entrance exams.\n2. Read the latest admission notice.\n3. Register on the official portal.\n4. Prepare marksheets, ID, photos, and required certificates.\n5. Track merit lists and seat allotment.\n\nConfirm the exact process on the official college or counselling website.";
+    return "BCA/MCA admission ka general process:\n\n1. Course ki current eligibility aur accepted entrance/merit route official notice se check karein.\n2. Admission ya counselling portal par deadline se pehle registration karein.\n3. Application bhar kar marksheets, ID, photo, aur applicable category/domicile certificates upload karein.\n4. Entrance result/merit list dekhein aur counselling ho to choices fill karein.\n5. Allotted seat ke documents verify karwa kar official fee deadline tak pay karein.\n\nRequired subjects, exams, documents, aur dates college/course ke hisaab se alag ho sakte hain; latest official notification final maana jaye.";
   }
 
   if (/scholarship/.test(q)) {
-    return "Check the National Scholarship Portal, your state scholarship portal, and the college's scholarship policies. Verify eligibility, documents, and deadlines on official websites.";
+    return "Scholarship dhoondhne ke liye National Scholarship Portal, apne state ka official scholarship portal, aur college ki merit/need-based schemes check karein. Har scheme ke liye eligibility, income/category rules, required documents, renewal conditions, aur deadline official page par verify karein. Aam taur par marksheets, income/category certificate, ID, aur bank details maange ja sakte hain—exact list scheme par depend karti hai.";
   }
 
   if (/hostel/.test(q)) {
-    return "When comparing hostels, check room sharing, hostel and mess fees, electricity, Wi-Fi, security, distance from campus, and refund policy.";
+    return "Hostel choose karne se pehle ye checklist use karein:\n\n- Room sharing, bed/storage, ventilation, washroom, safai, aur paani.\n- Mess menu, hygiene, meal timings, aur mess charge.\n- Security, warden, entry/visitor rules, aur emergency contact.\n- Bijli backup, Wi-Fi, laundry, study area, aur medical help.\n- Campus se distance, transport, hostel + mess ka total charge, deposit/refund, aur extra electricity/maintenance fees.\n\nMumkin ho to hostel visit karein aur current residents se facilities aur rules confirm karein.";
   }
 
   if (/rank|cutoff|counselling/.test(q)) {
-    return "College options depend on your entrance exam, rank, category, domicile, course, and counselling round. Share these details to help build a shortlist. Verify closing ranks on the official counselling website.";
+    return "Rank par college options exam, course, rank/score, category, home-state quota, admission year, aur counselling round par depend karte hain. Apna exam, course (BCA/MCA/B.Tech), rank ya score, category, aur home state bhejein; shortlist ke liye year aur round bhi batayein. Cutoffs har saal badal sakte hain—official counselling site ke previous-year opening/closing ranks se hi verify karein. Verified cutoff data na ho to exact college ya chance ka daawa nahi karna chahiye.";
   }
 
   if (/compar|compare|shortlist|choose|choosing|select/.test(q)) {
@@ -465,7 +484,7 @@ router.post("/", async (req, res) => {
         .map(([label]) => label);
       if (missing.length) {
         return res.json({
-          answer: `Please send these details so I can check relevant cutoff records: ${missing.join(", ")}. For example: “JEE Main rank 28,000, B.Tech, General, MP domicile, 2026, Round 1.”`,
+          answer: `Rank ke hisaab se shortlist banane ke liye ye details bhejein: exam, course (BCA/MCA/B.Tech), rank ya score, category, home state/quota, admission year, aur counselling round. Missing details: ${missing.join(", ")}. Example: “JEE Main, B.Tech, rank 28,000, General, MP domicile, 2026, Round 1.” Cutoff har saal badalta hai; main sirf matching verified records par options bataunga.`,
           mode: "college-data",
           saved: false,
           sources: [],
@@ -500,7 +519,7 @@ router.post("/", async (req, res) => {
 
     const apiKey = process.env.GEMINI_API_KEY?.trim();
 
-    if (apiKey) {
+    if (apiKey && !isQuickGuideQuestion(message)) {
       const ai = new GoogleGenAI({ apiKey });
 
       const safeHistory = history
@@ -575,6 +594,7 @@ router.post("/", async (req, res) => {
       answer = relevantColleges.length
         ? collegeDataAnswer(relevantColleges, message)
         : demoAnswer(message);
+      mode = apiKey ? "guide" : "demo";
     }
 
     let saved = false;
