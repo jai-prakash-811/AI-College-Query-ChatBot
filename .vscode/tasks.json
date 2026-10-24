@@ -307,6 +307,29 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Test query latency optimization",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check chat route syntax",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"server/routes/chat.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

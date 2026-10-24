@@ -94,6 +94,12 @@ function isBhopalCollegeQuestion(question) {
     /\b(colleges?|universit(?:y|ies)|BCA|MCA|B\.?\s?Tech|BTech|fee|tuition|placement|package|curriculum|syllabus|study|course|subject|salary|highest|median)\b/i.test(question);
 }
 
+export function shouldLookupCollegeData(question, history) {
+  return isBhopalCollegeQuestion(question) ||
+    isRankConversationMessage(question, history) ||
+    isCollegeDataFollowUp(question) && previousCollegeIds(history).length > 0;
+}
+
 function requestedPrograms(question) {
   return [
     ["BCA", /\bBCA\b/i],
@@ -440,7 +446,9 @@ router.post("/", async (req, res) => {
       });
     }
 
-    const relevantColleges = await getRelevantColleges(message, history);
+    const relevantColleges = shouldLookupCollegeData(message, history)
+      ? await getRelevantColleges(message, history)
+      : [];
     const sources = collegeSources(relevantColleges);
     if (isRankConversationMessage(message, history)) {
       const details = parseRankDetails(rankQueryText(message, history));
