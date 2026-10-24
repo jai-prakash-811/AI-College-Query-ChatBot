@@ -200,6 +200,17 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Verify secret-safe GitHub push",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const{spawnSync}=require('node:child_process');const cwd=process.cwd(),remote='https://github.com/jai-prakash-811/AI-College-Query-ChatBot.git';const r=spawnSync('git',['ls-remote','--heads',remote,'main'],{cwd,encoding:'utf8'});if(r.status!==0){console.error(r.stderr);process.exit(r.status||1)}const local=spawnSync('git',['rev-parse','HEAD'],{cwd,encoding:'utf8'}).stdout.trim(),remoteSha=r.stdout.trim().split(/\\s+/)[0];const tracked=spawnSync('git',['ls-files','--error-unmatch','server/.env'],{cwd,encoding:'utf8'});console.log('Local commit: '+local);console.log('Remote main:  '+remoteSha);console.log('server/.env tracked: '+(tracked.status===0?'YES':'no'));if(local!==remoteSha||tracked.status===0){console.error('Push verification failed.');process.exit(1)}"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }
