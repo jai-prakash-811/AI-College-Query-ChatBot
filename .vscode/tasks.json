@@ -211,6 +211,65 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Build Vercel frontend service",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"client",
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Test Vercel backend service",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check deployment config syntax",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"server/index.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify Express service handler",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"const config=require('./vercel.json');if(!config.services.client||!config.services.server||config.rewrites.length!==2)throw Error('Unexpected Vercel service routing config');const {default:app}=await import('./server/index.js');const server=app.listen(0,async()=>{try{const response=await fetch('http://127.0.0.1:'+server.address().port+'/api/health');const data=await response.json();console.log('Vercel-style exported Express app: HTTP '+response.status+' '+JSON.stringify(data));if(response.status!==200||data.status!=='ok')process.exitCode=1}catch(error){console.error(error);process.exitCode=1}finally{server.close()}})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify exported Express handler ES module",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--input-type=module",
+				"-e",
+				"import fs from 'node:fs';const config=JSON.parse(fs.readFileSync('./vercel.json','utf8'));if(!config.services.client||!config.services.server||config.rewrites.length!==2)throw Error('Unexpected Vercel service routing config');const {default:app}=await import('./server/index.js');const server=app.listen(0,async()=>{try{const response=await fetch('http://127.0.0.1:'+server.address().port+'/api/health');const data=await response.json();console.log('Exported Express app: HTTP '+response.status+' '+JSON.stringify(data));if(response.status!==200||data.status!=='ok')process.exitCode=1}catch(error){console.error(error);process.exitCode=1}finally{server.close()}})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

@@ -80,6 +80,19 @@ npm run dev
 Open the Vite URL shown in the terminal (normally `http://localhost:5173`).
 Keep this terminal running too. In local development, Vite forwards `/api` requests to the backend on port 5000.
 
+## Deploy to Vercel
+
+The root `vercel.json` configures `client` and `server` as separate Vercel services. Import the repository as a multi-service project from the repository root; do not set a single service root directory.
+
+Set these environment variables for the **server** service in Vercel:
+- `MONGODB_URI` — MongoDB Atlas connection string.
+- `GEMINI_API_KEY` — optional; without it the chatbot uses demo replies.
+- `GEMINI_MODEL` — optional; defaults to `models/gemini-3.8-flash`.
+- `JWT_SECRET` — a private random value of at least 32 characters.
+- `CLIENT_ORIGIN` — the exact deployed frontend origin, such as `https://your-project.vercel.app`.
+
+The browser sends `/api` requests to the same Vercel domain; Vercel routes those requests internally to the server service. No service-to-service binding is needed. Keep `.env` files and secret values out of GitHub.
+
 ## 4. Test it
 Ask questions such as:
 - What should I check before choosing an MCA college?
