@@ -10,6 +10,7 @@ A responsive college-help chatbot inspired by the supplied mockup. Built with Re
 - Source-linked, academic-year-specific tuition records. The chatbot does not guess missing fees.
 - Email/password signup and login with a personal profile, editable name, preset avatars, and photo upload.
 - API key kept on the backend in `.env`; it is never placed in React code.
+- English guide replies for common admissions, fees, scholarships, hostel, and BCA/MCA college questions; these remain available if the AI service is unavailable.
 - Demo fallback replies if the AI key is not configured.
 
 ## Requirements

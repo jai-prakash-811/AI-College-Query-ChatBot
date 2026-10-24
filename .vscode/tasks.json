@@ -387,6 +387,89 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Verify English chatbot FAQs",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Recheck English FAQ answers",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Validate English reply route syntax",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"server/routes/chat.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check English reply assertions",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--input-type=module",
+				"-e",
+				"import {demoAnswer} from './server/routes/chat.js';for(const q of ['Which colleges can I get with my rank?','What is the fee structure of MCA?','What is the admission process?','Best colleges for BCA / MCA?','How can I find scholarships?','What hostel facilities should I check?']){const a=demoAnswer(q);console.log(q+' => '+a.split('\\n')[0])}"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run complete chatbot test suite",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Validate chatbot JavaScript syntax",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"server/routes/chat.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Build frontend after reply changes",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"client",
+				"run",
+				"build"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

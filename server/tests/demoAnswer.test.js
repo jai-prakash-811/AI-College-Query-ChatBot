@@ -28,7 +28,7 @@ test("uses distinct focused replies for common college questions", () => {
   assert.equal(new Set(replies).size, replies.length);
 });
 
-test("answers each quick-question topic with a focused Hinglish reply", () => {
+test("answers each quick-question topic with a focused English reply", () => {
   const replies = [
     demoAnswer("Which colleges can I get with my rank?"),
     demoAnswer("What is the fee structure of MCA?"),
@@ -39,12 +39,37 @@ test("answers each quick-question topic with a focused Hinglish reply", () => {
   ];
 
   assert.equal(new Set(replies).size, replies.length);
-  assert.match(replies[0], /category|course/i);
-  assert.match(replies[1], /exact fees|exact/i);
-  assert.match(replies[2], /admission|eligibility/i);
+  assert.match(replies[0], /home-state quota/i);
+  assert.match(replies[1], /MCA fees vary/i);
+  assert.match(replies[2], /general BCA\/MCA admission process/i);
   assert.match(replies[3], /NIMCET|CUET-PG/i);
-  assert.match(replies[4], /Scholarship Portal/i);
-  assert.match(replies[5], /Mess|Hostel|hostel/i);
+  assert.match(replies[3], /Christ|Symbiosis/i);
+  assert.match(replies[4], /National Scholarship Portal/i);
+  assert.match(replies[5], /Before choosing a hostel/i);
+  assert.match(replies[2], /eligibility/i);
+});
+
+test("includes requested topics without presenting changing estimates as facts", () => {
+  const rank = demoAnswer("Which colleges can I get with my rank?");
+  const fees = demoAnswer("What is the fee structure of MCA?");
+  const admission = demoAnswer("What is the admission process?");
+  const best = demoAnswer("Best colleges for BCA / MCA?");
+  const scholarships = demoAnswer("How can I find scholarships?");
+  const hostel = demoAnswer("What hostel facilities should I check?");
+
+  assert.match(rank, /entrance exam, course, rank\/score, category, home-state quota/i);
+  assert.match(rank, /verified cutoff records/i);
+  assert.match(fees, /latest official fee notice/i);
+  assert.match(fees, /hostel and mess/i);
+  assert.match(admission, /NIMCET, CUET-PG/i);
+  assert.match(admission, /Class 10\/12 marksheets/i);
+  assert.match(best, /MANIT Bhopal|NIT Trichy/);
+  assert.match(best, /verify the current programme/i);
+  assert.match(scholarships, /National Scholarship Portal/i);
+  assert.match(scholarships, /Buddy4Study/i);
+  assert.match(scholarships, /Vidya Lakshmi/i);
+  assert.match(hostel, /CCTV\/security/i);
+  assert.match(hostel, /deposit and refund policy/i);
 });
 
 test("uses fixed guides for the requested FAQs while preserving rank and AI flows", () => {
