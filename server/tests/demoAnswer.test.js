@@ -40,7 +40,8 @@ test("answers each quick-question topic with a focused English reply", () => {
 
   assert.equal(new Set(replies).size, replies.length);
   assert.match(replies[0], /home-state quota/i);
-  assert.match(replies[1], /MCA fees vary/i);
+  assert.match(replies[1], /MCA fees depend heavily/i);
+  assert.match(replies[1], /rough estimates only/i);
   assert.match(replies[2], /general BCA\/MCA admission process/i);
   assert.match(replies[3], /NIMCET|CUET-PG/i);
   assert.match(replies[3], /Christ|Symbiosis/i);
@@ -59,7 +60,9 @@ test("includes requested topics without presenting changing estimates as facts",
 
   assert.match(rank, /entrance exam, course, rank\/score, category, home-state quota/i);
   assert.match(rank, /verified cutoff records/i);
-  assert.match(fees, /latest official fee notice/i);
+  assert.match(fees, /₹50,000 to ₹1\.5 lakh/);
+  assert.match(fees, /₹1\.5 lakh to ₹4 lakh/);
+  assert.match(fees, /₹4 lakh or more/);
   assert.match(fees, /hostel and mess/i);
   assert.match(admission, /NIMCET, CUET-PG/i);
   assert.match(admission, /Class 10\/12 marksheets/i);

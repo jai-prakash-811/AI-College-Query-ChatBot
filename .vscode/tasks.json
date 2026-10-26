@@ -470,6 +470,29 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Run server tests",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"server",
+				"test"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Syntax check chat route",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"--check",
+				"server/routes/chat.js"
+			],
+			"isBackground": false,
+			"problemMatcher": []
 		}
 	]
 }

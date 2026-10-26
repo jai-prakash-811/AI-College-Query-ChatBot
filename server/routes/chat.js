@@ -76,7 +76,7 @@ export function demoAnswer(question) {
 
   if (/fee|fees|cost|tuition/.test(q)) {
     if (/\bmca\b/.test(q)) {
-      return "MCA fees vary by institution, academic year, and applicable category or quota. Rather than rely on a general estimate, check the latest official fee notice and ask the admissions office for the full two-year cost. Add tuition, exam and registration charges, books/lab or development fees, hostel and mess, transport, and any refundable caution deposit. Scholarships, fee waivers, and education loans may be available, but eligibility and terms vary—confirm them with the official scheme, college, or lender.";
+      return "MCA fees depend heavily on the type of college. These are **rough estimates only**, and actual fees change every year:\n\n- **Government / NIT / central university:** often around ₹50,000 to ₹1.5 lakh for the full 2-year course.\n- **State private colleges:** roughly ₹1.5 lakh to ₹4 lakh in total.\n- **Top private universities:** ₹4 lakh or more.\n\n**Costs beyond tuition:**\n\n- Hostel and mess\n- Exam and registration fees\n- Books, lab, and development fees\n- Caution money (a refundable deposit)\n\n**Ways to reduce the cost:** consider government colleges, scholarships, and education loans. Loan eligibility, collateral requirements, and terms depend on the bank and scheme, so confirm them with the lender.\n\n**Tip:** check the “fee structure” page on the college website and ask the admission office for the total 2-year cost.";
     }
     return "Fees vary by course, college, academic year, and category. Check the latest official fee notice for exact amounts. Include tuition, exam/registration, lab, hostel, mess, transport, and refundable deposits when calculating the total cost.";
   }
