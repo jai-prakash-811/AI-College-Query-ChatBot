@@ -134,4 +134,75 @@ button:focus-visible,input:focus-visible{outline:3px solid #8bb9ff;outline-offse
 @media (min-width:1500px){.app-shell{grid-template-columns:300px minmax(520px,1fr) 400px}.conversation{padding-left:28px;padding-right:28px}.message{font-size:13px}}
 @media (max-width:1150px){.app-shell{grid-template-columns:230px minmax(380px,1fr)}.sidebar{padding-left:14px;padding-right:14px}.right-panel{grid-column:2;display:grid;grid-template-columns:1fr 1fr;padding-top:0}.quick-panel{grid-row:span 2}.promo{min-height:125px}.right-note{display:none}.chat-area{border-right:0}.conversation{max-height:600px}.profile-main{grid-column:2}}
 @media (max-width:760px){.app-shell{display:block}.sidebar{position:fixed;inset:0 auto 0 0;width:270px;transform:translateX(-100%);transition:transform .2s}.sidebar.sidebar-open{transform:translateX(0)}.mobile-scrim{display:block;position:fixed;inset:0;border:0;background:#08193680;z-index:9}.close-nav{display:block;margin-left:auto;background:transparent;border:0;color:#fff}.menu-button{display:grid;place-items:center;border:0;background:transparent;color:#31527f;padding:5px}.chat-header{padding:15px;min-height:110px}.chat-area{min-height:100vh}.right-panel{display:grid;grid-template-columns:1fr;padding:16px}.profile-main{min-height:100vh;padding:16px}.profile-card{padding:20px}.profile-name-form{grid-template-columns:1fr}.auth-card{margin:4vh auto 0}}
+@media (max-width:760px){.profile-main .profile-mobile-toolbar{display:flex;justify-content:flex-end;margin:0 auto 12px;width:min(100%,760px)}}
 @media (max-width:390px){.header-copy h2{font-size:15px}.header-copy p{font-size:10px}.bot-avatar.large{display:none}.reset-button{margin-left:auto}.message{max-width:94%}.tagline{font-size:10px}}
+
+.profile-mobile-toolbar{display:none}
+.robot-eye{position:absolute;z-index:1;top:60%;width:5px;height:5px;border-radius:50%;background:#e5efff;transform:translate(-50%,-50%) scaleY(1);animation:robot-blink 5s ease-in-out infinite;pointer-events:none}
+.robot-eye-left{left:40%}
+.robot-eye-right{left:60%;animation-delay:.06s}
+.bot-avatar.small .robot-eye{width:3px;height:3px}
+@keyframes robot-blink{0%,94%,98%,100%{transform:translate(-50%,-50%) scaleY(1)}95%,97%{transform:translate(-50%,-50%) scaleY(0)}}
+.theme-toggle{flex:0 0 38px;width:38px;height:38px;display:grid;place-items:center;border:1px solid #dce8f7;border-radius:10px;background:#fff;color:#54719a;transition:background .18s,color .18s,border-color .18s}
+.theme-toggle:hover{background:#eff6ff;color:#286ce0}
+.sidebar-theme-toggle{flex:0 0 36px;width:36px;height:36px;margin-left:auto;display:grid;place-items:center;border:1px solid #ffffff45;border-radius:10px;background:#ffffff12;color:#e4edff}
+.sidebar-theme-toggle:hover{background:#ffffff25;color:#fff}
+.app-shell,.chat-area,.chat-header,.right-panel,.panel,.bot-message,.composer,.profile-main,.profile-card{transition:background-color .2s ease,color .2s ease,border-color .2s ease}
+
+.app-shell[data-theme="dark"]{color:#e5edf9;background:#0b1220;color-scheme:dark}
+.app-shell[data-theme="dark"] .sidebar{background:linear-gradient(160deg,#091326,#111f38 65%,#0b172c)}
+.app-shell[data-theme="dark"] .brand-mark{color:#83b4ff}
+.app-shell[data-theme="dark"] .chat-area{border-color:#26364d;background:linear-gradient(180deg,#101a2a,#0d1625)}
+.app-shell[data-theme="dark"] .chat-header{border-color:#26364d}
+.app-shell[data-theme="dark"] .header-copy h2,.app-shell[data-theme="dark"] .empty-state h3{color:#e5edf9}
+.app-shell[data-theme="dark"] .header-copy p,.app-shell[data-theme="dark"] .empty-state{color:#a5b4ca}
+.app-shell[data-theme="dark"] .bot-avatar{border-color:#45628a;background:linear-gradient(145deg,#263d5e,#1a2d49);color:#9bc4ff;box-shadow:0 3px 10px #0004}
+.app-shell[data-theme="dark"] .robot-eye{background:#213754}
+.app-shell[data-theme="dark"] .antenna,.app-shell[data-theme="dark"] .antenna:before{background:#82b4ff}
+.app-shell[data-theme="dark"] .reset-button,.app-shell[data-theme="dark"] .theme-toggle{border-color:#33445d;background:#172337;color:#c4d3e8}
+.app-shell[data-theme="dark"] .reset-button:hover,.app-shell[data-theme="dark"] .theme-toggle:hover{background:#21324b;color:#fff}
+.app-shell[data-theme="dark"] .bot-message{border-color:#2a3a52;background:#172337;color:#e0e9f5;box-shadow:0 2px 5px #0002}
+.app-shell[data-theme="dark"] .user-message{background:#1c416d;color:#eef5ff}
+.app-shell[data-theme="dark"] .list-line>span,.app-shell[data-theme="dark"] .message-sources strong{color:#a9ccff}
+.app-shell[data-theme="dark"] .message small,.app-shell[data-theme="dark"] .typing em{color:#91a2ba}
+.app-shell[data-theme="dark"] .message-sources{border-color:#33445d}
+.app-shell[data-theme="dark"] .message-sources a{color:#8bb9ff}
+.app-shell[data-theme="dark"] .error-message{border-color:#73444c;background:#321f29}
+.app-shell[data-theme="dark"] .empty-icon{background:#1b3150;color:#8dbaff}
+.app-shell[data-theme="dark"] .composer{border-color:#30415b;background:#151f30;box-shadow:0 4px 14px #0003}
+.app-shell[data-theme="dark"] .composer input{color:#e5edf9}
+.app-shell[data-theme="dark"] .composer input::placeholder,.app-shell[data-theme="dark"] .attach-icon{color:#879ab5}
+.app-shell[data-theme="dark"] .chat-footer,.app-shell[data-theme="dark"] .right-note{color:#8292aa}
+.app-shell[data-theme="dark"] .status-note{color:#a9ccff}
+.app-shell[data-theme="dark"] .right-panel{background:#0c1524}
+.app-shell[data-theme="dark"] .panel{border-color:#2a3a52;background:#141f30;box-shadow:0 3px 10px #0002}
+.app-shell[data-theme="dark"] .panel h2{color:#e5edf9}
+.app-shell[data-theme="dark"] .quick-panel h2 svg,.app-shell[data-theme="dark"] .features-panel h2 svg{color:#91baff}
+.app-shell[data-theme="dark"] .quick-list button{background:#1b2b42;color:#dce8f8}
+.app-shell[data-theme="dark"] .quick-list button:hover:not(:disabled){background:#263c5a}
+.app-shell[data-theme="dark"] .quick-list button span{color:#91baff}
+.app-shell[data-theme="dark"] .features-panel li{color:#c6d2e2}
+.app-shell[data-theme="dark"] .features-panel li:before{color:#83b4ff}
+.app-shell[data-theme="dark"] .promo{background:linear-gradient(110deg,#1c3452,#203e63);color:#e5edf9}
+.app-shell[data-theme="dark"] .promo-cap{color:#9bc4ff}
+.app-shell[data-theme="dark"] .profile-main{background:#0d1625}
+.app-shell[data-theme="dark"] .profile-page{color:#e5edf9}
+.app-shell[data-theme="dark"] .profile-card{border-color:#2a3a52;background:#141f30;box-shadow:0 8px 26px #0003}
+.app-shell[data-theme="dark"] .profile-card>p,.app-shell[data-theme="dark"] .profile-title-row p,.app-shell[data-theme="dark"] .avatar-section>p{color:#a5b4ca}
+.app-shell[data-theme="dark"] .profile-card-icon{background:#1b3150;color:#91baff}
+.app-shell[data-theme="dark"] .profile-field{color:#c2d0e3}
+.app-shell[data-theme="dark"] .profile-field input{border-color:#354761;background:#101a2a;color:#e5edf9}
+.app-shell[data-theme="dark"] .profile-field input:read-only{background:#1a2639;color:#a5b4ca}
+.app-shell[data-theme="dark"] .profile-field small,.app-shell[data-theme="dark"] .profile-hint{color:#9cacc2}
+.app-shell[data-theme="dark"] .profile-secondary{border-color:#354761;background:#1a2639;color:#d5e1f1}
+.app-shell[data-theme="dark"] .profile-switch{color:#a5b4ca}
+.app-shell[data-theme="dark"] .profile-switch button{color:#91baff}
+.app-shell[data-theme="dark"] .profile-summary{border-color:#2e4059;background:#101a2a}
+.app-shell[data-theme="dark"] .profile-summary span{color:#a5b4ca}
+.app-shell[data-theme="dark"] .profile-name-form{border-color:#2e4059}
+.app-shell[data-theme="dark"] .avatar-option{color:#c2d0e3}
+.app-shell[data-theme="dark"] .avatar-option:hover,.app-shell[data-theme="dark"] .avatar-option.selected{border-color:#547cb1;background:#1b2b42}
+.app-shell[data-theme="dark"] .profile-error{border-color:#73444c;background:#321f29;color:#ffc9cd}
+.app-shell[data-theme="dark"] .profile-success{border-color:#32684e;background:#183226;color:#b8efd0}
+
+@media (prefers-reduced-motion:reduce){.robot-eye{animation:none;transform:translate(-50%,-50%) scaleY(1)}.typing>span{animation:none}.conversation{scroll-behavior:auto}.sidebar,.app-shell,.chat-area,.chat-header,.right-panel,.panel,.bot-message,.composer,.profile-main,.profile-card{transition:none}}

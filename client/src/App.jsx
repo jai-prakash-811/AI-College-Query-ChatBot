@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import {
   GraduationCap, MessageCircle, Landmark, BookOpen, FileText, CircleHelp,
-  UserRound, Zap, Star, Send, Paperclip, Menu, X, Bot, RotateCcw, Sparkles
+  UserRound, Zap, Star, Send, Paperclip, Menu, X, Bot, RotateCcw, Sparkles,
+  Moon, Sun
 } from "lucide-react";
 import ProfilePanel from "./components/ProfilePanel.jsx";
 
@@ -28,6 +29,17 @@ function timeNow() {
   return new Intl.DateTimeFormat("en-IN", { hour: "2-digit", minute: "2-digit" }).format(new Date());
 }
 
+function BotAvatar({ size }) {
+  return (
+    <div className={`bot-avatar ${size}`} aria-hidden="true">
+      {size === "large" && <span className="antenna" />}
+      <Bot size={size === "large" ? 47 : 23} strokeWidth={1.8} />
+      <span className="robot-eye robot-eye-left" />
+      <span className="robot-eye robot-eye-right" />
+    </div>
+  );
+}
+
 function MessageText({ content }) {
   // Simple readable rendering for line breaks and numbered/bullet lists from the assistant.
   const lines = String(content || "").split("\n");
@@ -49,6 +61,11 @@ function MessageText({ content }) {
 }
 
 export default function App() {
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = window.localStorage.getItem("college-chat-theme");
+    if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
   const [messages, setMessages] = useState([]);
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
@@ -59,6 +76,11 @@ export default function App() {
   const [authToken, setAuthToken] = useState("");
   const conversationRef = useRef(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("college-chat-theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("college-chat-token");
@@ -180,7 +202,7 @@ export default function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" data-theme={theme}>
       {mobileNavOpen && <button className="mobile-scrim" aria-label="Close menu" onClick={() => setMobileNavOpen(false)} />}
       <aside className={`sidebar ${mobileNavOpen ? "sidebar-open" : ""}`}>
         <div className="brand">
@@ -211,29 +233,58 @@ export default function App() {
         <div className="sidebar-bottom">
           <GraduationCap size={35} strokeWidth={1.5} />
           <div>Your College Journey<br /><strong>Starts Here</strong><i /></div>
+          <button
+            className="sidebar-theme-toggle"
+            onClick={() => setTheme((current) => current === "dark" ? "light" : "dark")}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            aria-pressed={theme === "dark"}
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
         </div>
       </aside>
 
       <main className={activeView === "profile" ? "profile-main" : "chat-area"}>
         {activeView === "profile" ? (
-          <ProfilePanel
-            user={user}
-            token={authToken}
-            onAuthenticated={handleAuthenticated}
-            onUserUpdated={setUser}
-            onLogout={handleLogout}
-          />
+          <>
+            <div className="profile-mobile-toolbar">
+              <button
+                className="theme-toggle"
+                onClick={() => setTheme((current) => current === "dark" ? "light" : "dark")}
+                aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                aria-pressed={theme === "dark"}
+              >
+                {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+              </button>
+            </div>
+            <ProfilePanel
+              user={user}
+              token={authToken}
+              onAuthenticated={handleAuthenticated}
+              onUserUpdated={setUser}
+              onLogout={handleLogout}
+            />
+          </>
         ) : (
           <>
         <header className="chat-header">
           <button className="menu-button" onClick={() => setMobileNavOpen(true)} aria-label="Open navigation"><Menu size={23} /></button>
-          <div className="bot-avatar large"><span className="antenna" /><Bot size={47} strokeWidth={1.8} /></div>
+          <BotAvatar size="large" />
           <div className="header-copy">
             <div className="hello-pill">Hi!</div>
             <h2>AI College Query Chatbot</h2>
             <p>Hi! I'm your AI assistant. Ask me anything about colleges,<br className="desktop-only" /> courses, admissions, fees, and more.</p>
           </div>
           <button className="reset-button" onClick={resetChat} title="Start a new chat" aria-label="Start a new chat"><RotateCcw size={18} /></button>
+          <button
+            className="theme-toggle"
+            onClick={() => setTheme((current) => current === "dark" ? "light" : "dark")}
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+            aria-pressed={theme === "dark"}
+          >
+            {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+          </button>
         </header>
 
         <section className="conversation" ref={conversationRef} aria-live="polite">
@@ -246,7 +297,7 @@ export default function App() {
           )}
           {messages.map((message, index) => (
             <div className={`message-row ${message.role === "user" ? "user-row" : "bot-row"}`} key={`${index}-${message.time}`}>
-              {message.role !== "user" && <div className="bot-avatar small"><Bot size={23} /></div>}
+              {message.role !== "user" && <BotAvatar size="small" />}
               <div className={`message ${message.role === "user" ? "user-message" : "bot-message"} ${message.error ? "error-message" : ""}`}>
                 <MessageText content={message.content} />
                 {message.sources?.length > 0 && (
@@ -264,7 +315,7 @@ export default function App() {
           ))}
           {loading && (
             <div className="message-row bot-row">
-              <div className="bot-avatar small"><Bot size={23} /></div>
+              <BotAvatar size="small" />
               <div className="message bot-message typing"><span /><span /><span /><em>Thinking...</em></div>
             </div>
           )}

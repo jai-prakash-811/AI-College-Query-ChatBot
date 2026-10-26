@@ -52,6 +52,7 @@ export function isRankConversationMessage(message, history) {
       isRankShortlistQuestion(item.content)
     );
   return hasRecentRankRequest &&
+    !/\b(fee|fees|cost|tuition|placement|placements|package|salary|hostel|scholarship|syllabus|curriculum|admission process)\b/i.test(message) &&
     /\b(rank|score|percentile|jee|cuet|bca|mca|b\.?\s?tech|btech|round|domicile|quota|category|general|obc|ews|sc|st)\b/i.test(message);
 }
 

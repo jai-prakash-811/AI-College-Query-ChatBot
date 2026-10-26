@@ -77,6 +77,25 @@ test("collects rank details across the follow-up chat turn", () => {
   );
 });
 
+test("does not mistake an MCA fee question for a reply to a rank prompt", () => {
+  const history = [
+    { role: "user", content: "Which colleges can I get with my rank?" },
+    {
+      role: "assistant",
+      content: "Please share your exam, rank, course, and category.",
+      rankPrompt: true
+    }
+  ];
+
+  assert.equal(isRankConversationMessage("What is the fee structure of MCA?", history), false);
+  assert.equal(isRankConversationMessage("How much are MCA fees?", history), false);
+  assert.equal(isRankConversationMessage("What are the hostel fees for MCA?", history), false);
+  assert.equal(
+    isRankConversationMessage("JEE Main rank 28,000, MCA, General, MP domicile, 2026, Round 1", history),
+    true
+  );
+});
+
 test("normalizes category aliases and MP domicile quota", () => {
   assert.equal(normalizeCutoffCategory("Unreserved"), "general");
   assert.equal(normalizeCutoffCategory("OBC-NCL"), "obcncl");
